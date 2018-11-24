@@ -29,15 +29,66 @@ bool   Box::update_ConstantBuffer()
 
 bool  Box::Set_VertexData()
 {
-	m_VertexList[0].x = -0.5f; m_VertexList[0].y = 0.5f;  m_VertexList[0].z = 0.0f;   m_VertexList[0].r = 0.0f;	m_VertexList[0].g = 0.0f;	m_VertexList[0].b = 0.0f;	m_VertexList[0].a = 0.0f;  m_VertexList[0].u = 0.0f;	m_VertexList[0].v = 0.0f;
-	m_VertexList[1].x = 0.5f; m_VertexList[1].y = 0.5f;  m_VertexList[1].z = 0.0f;   m_VertexList[1].r = 1.0f;	m_VertexList[1].g = 0.0f;	m_VertexList[1].b = 1.0f;	m_VertexList[1].a = 0.0f;  m_VertexList[1].u = 1.0f;	m_VertexList[1].v = 0.0f;
-	m_VertexList[2].x = -0.5f; m_VertexList[2].y = -0.5f; m_VertexList[2].z = 0.0f;   m_VertexList[2].r = 0.0f;	m_VertexList[2].g = 1.0f;	m_VertexList[2].b = 0.0f;	m_VertexList[2].a = 1.0f;  m_VertexList[2].u = 0.0f;	m_VertexList[2].v = 1.0f;
-	m_VertexList[3].x = -0.5f; m_VertexList[3].y = -0.5f; m_VertexList[3].z = 0.0f;   m_VertexList[3].r = 0.0f;	m_VertexList[3].g = 1.0f;	m_VertexList[3].b = 0.0f;	m_VertexList[3].a = 1.0f;  m_VertexList[3].u = 0.0f;	m_VertexList[3].v = 1.0f;
-	m_VertexList[4].x = 0.5f; m_VertexList[4].y = 0.5f; m_VertexList[4].z = 0.0f;     m_VertexList[4].r = 1.0f;   m_VertexList[4].g = 0.0f;	m_VertexList[4].b = 1.0f;   m_VertexList[4].a = 0.0f;  m_VertexList[4].u = 1.0f;   m_VertexList[4].v = 0.0f;
-	m_VertexList[5].x = 0.5f; m_VertexList[5].y = -0.5f; m_VertexList[5].z = 0.0f;    m_VertexList[5].r = 1.0f;	m_VertexList[5].g = 1.0f;	m_VertexList[5].b = 1.0f;	m_VertexList[5].a = 1.0f;  m_VertexList[5].u = 1.0f;	m_VertexList[5].v = 1.0f;
+	m_VertexList.resize(36);
+	int iner_index = 0;
+
+	//¾Õ¸é
+
+	m_VertexList[iner_index++] = SimpleVertex(D3DXVECTOR3(-0.5f, 0.5f, -0.5f), D3DXVECTOR4(1.0f, 0.0f, 0.0f, 1.0f), D3DXVECTOR2(0.0f, 0.0f));
+	m_VertexList[iner_index++] = SimpleVertex(D3DXVECTOR3(0.5f, 0.5f, -0.5f), D3DXVECTOR4(1.0f, 0.0f, 0.0f, 1.0f), D3DXVECTOR2(1.0f, 0.0f));
+	m_VertexList[iner_index++] = SimpleVertex(D3DXVECTOR3(0.5f, -0.5f, -0.5f), D3DXVECTOR4(1.0f, 0.0f, 0.0f, 1.0f), D3DXVECTOR2(1.0f, 1.0f));
+
+	m_VertexList[iner_index++] = SimpleVertex(D3DXVECTOR3(0.5f, -0.5f, -0.5f), D3DXVECTOR4(1.0f, 0.0f, 0.0f, 1.0f), D3DXVECTOR2(1.0f, 1.0f));
+	m_VertexList[iner_index++] = SimpleVertex(D3DXVECTOR3(-0.5f, -0.5f, -0.5f), D3DXVECTOR4(1.0f, 0.0f, 0.0f, 1.0f), D3DXVECTOR2(0.0f, 1.0f));
+	m_VertexList[iner_index++] = SimpleVertex(D3DXVECTOR3(-0.5f, 0.5f, -0.5f), D3DXVECTOR4(1.0f, 0.0f, 0.0f, 1.0f), D3DXVECTOR2(0.0f, 0.0f));
+
+	// µÞ¸é
+	m_VertexList[iner_index++] = SimpleVertex(D3DXVECTOR3(0.5f, 0.5f, 0.5f), D3DXVECTOR4(0.0f, 0.0f, 0.0f, 1.0f), D3DXVECTOR2(0.0f, 0.0f));
+	m_VertexList[iner_index++] = SimpleVertex(D3DXVECTOR3(-0.5f, 0.5f, 0.5f), D3DXVECTOR4(0.0f, 1.0f, 0.0f, 1.0f), D3DXVECTOR2(1.0f, 0.0f));
+	m_VertexList[iner_index++] = SimpleVertex(D3DXVECTOR3(-0.5f, -0.5f, 0.5f), D3DXVECTOR4(0.0f, 1.0f, 0.0f, 1.0f), D3DXVECTOR2(1.0f, 1.0f));
+	
+	m_VertexList[iner_index++] = SimpleVertex(D3DXVECTOR3(-0.5f, -0.5f, 0.5f), D3DXVECTOR4(0.0f, 1.0f, 0.0f, 1.0f), D3DXVECTOR2(1.0f, 1.0f));
+	m_VertexList[iner_index++] = SimpleVertex(D3DXVECTOR3(0.5f, -0.5f, 0.5f), D3DXVECTOR4(0.0f, 1.0f, 0.0f, 1.0f), D3DXVECTOR2(0.0f, 1.0f));
+	m_VertexList[iner_index++] = SimpleVertex(D3DXVECTOR3(0.5f, 0.5f, 0.5f), D3DXVECTOR4(0.0f, 0.0f, 0.0f, 1.0f), D3DXVECTOR2(0.0f, 0.0f));
+
+	// ¿À¸¥ÂÊ
+	m_VertexList[iner_index++] = SimpleVertex(D3DXVECTOR3(0.5f, 0.5f, -0.5f), D3DXVECTOR4(0.0f, 0.0f, 1.0f, 1.0f), D3DXVECTOR2(0.0f, 0.0f));
+	m_VertexList[iner_index++] = SimpleVertex(D3DXVECTOR3(0.5f, 0.5f, 0.5f), D3DXVECTOR4(0.0f, 0.0f, 1.0f, 1.0f), D3DXVECTOR2(1.0f, 0.0f));
+	m_VertexList[iner_index++] = SimpleVertex(D3DXVECTOR3(0.5f, -0.5f, 0.5f), D3DXVECTOR4(0.0f, 0.0f, 1.0f, 1.0f), D3DXVECTOR2(1.0f, 1.0f));
 
 
-	m_icount_Vertexs = 6;
+	m_VertexList[iner_index++] = SimpleVertex(D3DXVECTOR3(0.5f, -0.5f, 0.5f), D3DXVECTOR4(0.0f, 0.0f, 1.0f, 1.0f), D3DXVECTOR2(1.0f, 1.0f));
+	m_VertexList[iner_index++] = SimpleVertex(D3DXVECTOR3(0.5f, -0.5f, -0.5f), D3DXVECTOR4(0.0f, 0.0f, 1.0f, 1.0f), D3DXVECTOR2(0.0f, 1.0f));
+	m_VertexList[iner_index++] = SimpleVertex(D3DXVECTOR3(0.5f, 0.5f, -0.5f), D3DXVECTOR4(0.0f, 0.0f, 1.0f, 1.0f), D3DXVECTOR2(0.0f, 0.0f));
+
+	// ¿ÞÂÊ
+	m_VertexList[iner_index++] = SimpleVertex(D3DXVECTOR3(-0.5f, 0.5f, 0.5f), D3DXVECTOR4(1.0f, 1.0f, 0.0f, 1.0f), D3DXVECTOR2(0.0f, 0.0f));
+	m_VertexList[iner_index++] = SimpleVertex(D3DXVECTOR3(-0.5f, 0.5f, -0.5f), D3DXVECTOR4(1.0f, 1.0f, 0.0f, 1.0f), D3DXVECTOR2(1.0f, 0.0f));
+	m_VertexList[iner_index++] = SimpleVertex(D3DXVECTOR3(-0.5f, -0.5f, -0.5f), D3DXVECTOR4(1.0f, 1.0f, 0.0f, 1.0f), D3DXVECTOR2(1.0f, 1.0f));
+
+	m_VertexList[iner_index++] = SimpleVertex(D3DXVECTOR3(-0.5f, -0.5f, -0.5f), D3DXVECTOR4(1.0f, 1.0f, 0.0f, 1.0f), D3DXVECTOR2(1.0f, 1.0f));
+	m_VertexList[iner_index++] = SimpleVertex(D3DXVECTOR3(-0.5f, -0.5f, 0.5f), D3DXVECTOR4(1.0f, 1.0f, 0.0f, 1.0f), D3DXVECTOR2(0.0f, 1.0f));
+	m_VertexList[iner_index++] = SimpleVertex(D3DXVECTOR3(-0.5f, 0.5f, 0.5f), D3DXVECTOR4(1.0f, 1.0f, 0.0f, 1.0f), D3DXVECTOR2(0.0f, 0.0f));
+
+	// À­¸é
+	m_VertexList[iner_index++] = SimpleVertex(D3DXVECTOR3(-0.5f, 0.5f, 0.5f), D3DXVECTOR4(1.0f, 0.5f, 1.0f, 1.0f), D3DXVECTOR2(0.0f, 0.0f));
+	m_VertexList[iner_index++] = SimpleVertex(D3DXVECTOR3(0.5f, 0.5f, 0.5f), D3DXVECTOR4(1.0f, 0.5f, 1.0f, 1.0f), D3DXVECTOR2(1.0f, 0.0f));
+	m_VertexList[iner_index++] = SimpleVertex(D3DXVECTOR3(0.5f, 0.5f, -0.5f), D3DXVECTOR4(1.0f, 0.5f, 1.0f, 1.0f), D3DXVECTOR2(1.0f, 1.0f));
+	
+	m_VertexList[iner_index++] = SimpleVertex(D3DXVECTOR3(0.5f, 0.5f, -0.5f), D3DXVECTOR4(1.0f, 0.5f, 1.0f, 1.0f), D3DXVECTOR2(1.0f, 1.0f));
+	m_VertexList[iner_index++] = SimpleVertex(D3DXVECTOR3(-0.5f, 0.5f, -0.5f), D3DXVECTOR4(1.0f, 0.5f, 1.0f, 1.0f), D3DXVECTOR2(0.0f, 1.0f));
+	m_VertexList[iner_index++] = SimpleVertex(D3DXVECTOR3(-0.5f, 0.5f, 0.5f), D3DXVECTOR4(1.0f, 0.5f, 1.0f, 1.0f), D3DXVECTOR2(0.0f, 0.0f));
+
+	// ¾Æ·§¸é
+	m_VertexList[iner_index++] = SimpleVertex(D3DXVECTOR3(-0.5f, -0.5f, -0.5f), D3DXVECTOR4(0.0f, 1.0f, 1.0f, 1.0f), D3DXVECTOR2(0.0f, 0.0f));
+	m_VertexList[iner_index++] = SimpleVertex(D3DXVECTOR3(0.5f, -0.5f, -0.5f), D3DXVECTOR4(0.0f, 1.0f, 1.0f, 1.0f), D3DXVECTOR2(1.0f, 0.0f));
+	m_VertexList[iner_index++] = SimpleVertex(D3DXVECTOR3(0.5f, -0.5f, 0.5f), D3DXVECTOR4(0.0f, 1.0f, 1.0f, 1.0f), D3DXVECTOR2(1.0f, 1.0f));
+	
+	m_VertexList[iner_index++] = SimpleVertex(D3DXVECTOR3(0.5f, -0.5f, 0.5f), D3DXVECTOR4(0.0f, 1.0f, 1.0f, 1.0f), D3DXVECTOR2(1.0f, 1.0f));
+	m_VertexList[iner_index++] = SimpleVertex(D3DXVECTOR3(-0.5f, -0.5f, 0.5f), D3DXVECTOR4(0.0f, 1.0f, 1.0f, 1.0f), D3DXVECTOR2(0.0f, 1.0f));
+	m_VertexList[iner_index++] = SimpleVertex(D3DXVECTOR3(-0.5f, -0.5f, -0.5f), D3DXVECTOR4(0.0f, 1.0f, 1.0f, 1.0f), D3DXVECTOR2(0.0f, 0.0f));
+
+	m_icount_Vertexs = m_VertexList.size();
 
 	return true;
 }
@@ -47,7 +98,7 @@ bool    Box::Create(ID3D11Device* pd3dDevice, const TCHAR* pVsFile, const TCHAR*
 {
 	PipeLineSetup.LoadTexture(pd3dDevice, pTexFile);
 	PipeLineSetup.SetBlendState(pd3dDevice);
-	PipeLineSetup.CreateVertextBuffer(pd3dDevice, m_VertexList, 6);
+	PipeLineSetup.CreateVertextBuffer(pd3dDevice, &m_VertexList.at(0), m_icount_Vertexs);
 	PipeLineSetup.CreateConstantBuffer(pd3dDevice, &m_Constant_Data);
 	PipeLineSetup.CreateVertexShader(pd3dDevice, pVsFile);
 	PipeLineSetup.CreateLayout(pd3dDevice);

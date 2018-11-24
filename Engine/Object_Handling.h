@@ -12,9 +12,6 @@ public:
 	tPoint			m_pos_past;
 public:
 
-
-public:
-
 	bool  m_bDead;
 	bool  m_bDetectRect;
 
@@ -51,8 +48,8 @@ public:
 D3DVECTOR  Object_Handling::Gen(float x, float y)
 {
 	D3DVECTOR D3DVECTOR_Gen;   // float x;float y;float z; // // 0 ~ 900 - > 0 ~1 -> -1 ~ +1
-	D3DVECTOR_Gen.x = x / 900;
-	D3DVECTOR_Gen.y = y / 500;
+	D3DVECTOR_Gen.x = x / g_rtClient.right;
+	D3DVECTOR_Gen.y = y / g_rtClient.bottom;
 	D3DVECTOR_Gen.x = D3DVECTOR_Gen.x * 2.0f - 1.0f;
 	D3DVECTOR_Gen.y = (D3DVECTOR_Gen.y * 2 - 1.0f)*-1.0f;
 	return D3DVECTOR_Gen;
@@ -61,18 +58,18 @@ D3DVECTOR  Object_Handling::Gen(float x, float y)
 
 void  Object_Handling::in_Texture_SetData_factors(float l, float t, float r, float b, float texture_width, float texture_height)
 {
-	m_VertexList[0].u = (l) / texture_width;
-	m_VertexList[0].v = (t) / texture_height;
-	m_VertexList[1].u = (l + r) / texture_width;
-	m_VertexList[1].v = (t) / texture_height;
-	m_VertexList[2].u = (l) / texture_width;
-	m_VertexList[2].v = (t + b) / texture_height;
-	m_VertexList[3].u = (l) / texture_width;
-	m_VertexList[3].v = (t + b) / texture_height;
-	m_VertexList[4].u = (l + r) / texture_width;
-	m_VertexList[4].v = (t) / texture_height;
-	m_VertexList[5].u = (l + r) / texture_width;
-	m_VertexList[5].v = (t + b) / texture_height;
+	m_VertexList[0].t.x = (l) / texture_width;
+	m_VertexList[0].t.y = (t) / texture_height;
+	m_VertexList[1].t.x = (l + r) / texture_width;
+	m_VertexList[1].t.y = (t) / texture_height;
+	m_VertexList[2].t.x = (l) / texture_width;
+	m_VertexList[2].t.y = (t + b) / texture_height;
+	m_VertexList[3].t.x = (l) / texture_width;
+	m_VertexList[3].t.y = (t + b) / texture_height;
+	m_VertexList[4].t.x = (l + r) / texture_width;
+	m_VertexList[4].t.y = (t) / texture_height;
+	m_VertexList[5].t.x = (l + r) / texture_width;
+	m_VertexList[5].t.y = (t + b) / texture_height;
 }
 
 
@@ -112,19 +109,19 @@ void   Object_Handling::SetVertexData()
 {
 	D3DVECTOR pos;
 	pos = Gen(m_rtCollision.left, m_rtCollision.top); // DX 좌표화
-	m_VertexList[0].x = pos.x; m_VertexList[0].y = pos.y;  m_VertexList[0].z = 0.0f;
+	m_VertexList[0].p.x = pos.x; m_VertexList[0].p.y = pos.y;  m_VertexList[0].p.z = 0.0f;
 
 	pos = Gen(m_rtCollision.left + m_rtCollision.right, m_rtCollision.top); // DX 좌표화 : 근데 왜, left + right를 하지? right이 width 이니까.
-	m_VertexList[1].x = pos.x; m_VertexList[1].y = pos.y;  m_VertexList[1].z = 0.0f;
+	m_VertexList[1].p.x = pos.x; m_VertexList[1].p.y = pos.y;  m_VertexList[1].p.z = 0.0f;
 	
 	pos = Gen(m_rtCollision.left, m_rtCollision.top + m_rtCollision.bottom); // DX 좌표화 : 근데 왜, top + bottom을 하지? bottom이 height이니까.
-	m_VertexList[2].x = pos.x; m_VertexList[2].y = pos.y;  m_VertexList[2].z = 0.0f;
+	m_VertexList[2].p.x = pos.x; m_VertexList[2].p.y = pos.y;  m_VertexList[2].p.z = 0.0f;
 	
 	m_VertexList[3] = m_VertexList[2];                    // 왜 [2]와 같다 하지? 
 	m_VertexList[4] = m_VertexList[1];
 
 	pos = Gen(m_rtCollision.left + m_rtCollision.right, m_rtCollision.top + m_rtCollision.bottom);
-	m_VertexList[5].x = pos.x; m_VertexList[5].y = pos.y;  m_VertexList[5].z = 0.0f;
+	m_VertexList[5].p.x = pos.x; m_VertexList[5].p.y= pos.y;  m_VertexList[5].p.z = 0.0f;
 
 	GenCenter();
 }
@@ -132,8 +129,8 @@ void   Object_Handling::SetVertexData()
 
 void Object_Handling::GenCenter_Rects_Adapt_new()
 {
-	m_pos.x = (m_vCenter.x + 1) * 450;
-	m_pos.y = ((-1)*m_vCenter.y + 1.0f) * 250;
+	m_pos.x = (m_vCenter.x + 1) * g_rtClient.right/2;
+	m_pos.y = ((-1)*m_vCenter.y + 1.0f) * g_rtClient.bottom/2;
 
 
 	m_rtCollision.left = m_pos.x - m_for_update_Rects.x / 2;
@@ -157,9 +154,9 @@ void    Object_Handling::GenCenter()
 	for (int iV = 0; iV < 6; iV++)
 	{
 		D3DVECTOR vertex;
-		vertex.x = m_VertexList[iV].x;
-		vertex.y = m_VertexList[iV].y;
-		vertex.z = m_VertexList[iV].z;
+		vertex.x = m_VertexList[iV].p.x;
+		vertex.y = m_VertexList[iV].p.y;
+		vertex.z = m_VertexList[iV].p.z;
 		m_vCenter.x += vertex.x;
 		m_vCenter.y += vertex.y;
 	}
@@ -173,14 +170,14 @@ void    Object_Handling::GenCenter()
 void   Object_Handling::MoveX(float fDis)
 {
 	m_pos_past.x = m_pos.x;
-	for (int iV = 0; iV < 6; iV++) { m_VertexList[iV].x += fDis; }
+	for (int iV = 0; iV < 6; iV++) { m_VertexList[iV].p.x += fDis; }
 	GenCenter();
 }
 
 void   Object_Handling::MoveY(float fDis)
 {
 	m_pos_past.y = m_pos.y;
-	for (int iV = 0; iV < 6; iV++) { m_VertexList[iV].y += fDis; }
+	for (int iV = 0; iV < 6; iV++) { m_VertexList[iV].p.y += fDis; }
 	GenCenter();
 }
 

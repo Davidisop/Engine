@@ -2,11 +2,29 @@
 #include "xCore.h"
 
 
-struct SimpleVertex  // 4*5 = 20¹ÙÀÌÆ®
+struct SimpleVertex  
 {
-	float x, y, z;
-	float r, g, b, a;
-	float u, v;
+	D3DXVECTOR3 p;
+	D3DXVECTOR4 c;
+	D3DXVECTOR2 t;
+
+
+	bool operator == (const SimpleVertex & Vertex)
+	{
+		if (p == Vertex.p  &&  c == Vertex.c)
+		{
+			return true;
+		}
+		return  false;
+	}
+
+	SimpleVertex() {}
+	SimpleVertex(D3DXVECTOR3 vp, D3DXVECTOR4 vc, D3DXVECTOR2 vt)
+	{
+		p = vp, c = vc, t = vt;
+	}
+
+
 };
 
 
@@ -69,7 +87,7 @@ public: // ±íÀÌ ½ºÅÙ½Ç ¹öÆÛ
 
 public:
 
-	HRESULT CreateVertextBuffer(ID3D11Device* pd3dDevice, SimpleVertex* pVertexList, int iNumCount);
+	HRESULT CreateVertextBuffer(ID3D11Device* pd3dDevice, void* pVertexList, int iNumCount);
 	HRESULT CreateVertexShader(ID3D11Device* pd3dDevice, const TCHAR* pName);
 	HRESULT CreateLayout(ID3D11Device* pd3dDevice);
 	HRESULT CreatePixelShader(ID3D11Device* pd3dDevice, const TCHAR* pName);
@@ -78,7 +96,7 @@ public:
 
 
 public:
-	bool Init(ID3D11Device* pd3dDevice, const TCHAR* p_Texture_LoadFile, SimpleVertex* pVertexList, int iNumCount, const TCHAR* p_Vertex_shader_Name, const TCHAR* p_Pixel_shader_Name)
+	bool Init(ID3D11Device* pd3dDevice, const TCHAR* p_Texture_LoadFile, void* pVertexList, int iNumCount, const TCHAR* p_Vertex_shader_Name, const TCHAR* p_Pixel_shader_Name)
 	{
 		
 		LoadTexture(g_pd3dDevice, p_Texture_LoadFile);
@@ -305,7 +323,7 @@ void PipeLineSetup::Create_RasterizerState()
 	g_pd3dDevice->CreateRasterizerState(&rd, &m_RasterizerState);
 }
 
-HRESULT  PipeLineSetup::CreateVertextBuffer(ID3D11Device* pd3dDevice, SimpleVertex* pVertexList, int iNumCount)
+HRESULT  PipeLineSetup::CreateVertextBuffer(ID3D11Device* pd3dDevice, void* pVertexList, int iNumCount)
 {
 	HRESULT hr;
 	D3D11_BUFFER_DESC pDesc;

@@ -1,4 +1,5 @@
 #include "Plane.h"
+#include "Box.h"
 
 
 
@@ -37,7 +38,7 @@ class TSceneLobby : public TScene
 {
 public:
 	
-	Plane					UI_BUTTON;
+	Box					UI_BUTTON;
 
 public:
 	virtual bool	Init();

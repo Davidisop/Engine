@@ -5,11 +5,11 @@
 class Line_Axis_s : public Object_Handling
 {
 public:
-	bool   Set_VertexData();
+	bool   Set_VertexData(D3DXVECTOR3 dir_in, D3DXVECTOR4 color_in);
 	bool   update_ConstantBuffer();
 
 public:
-	bool Create(ID3D11Device* pd3dDevice, const TCHAR* pVsFile, const TCHAR* pPsFile, const TCHAR* pTexFile);
+	bool Create(ID3D11Device* pd3dDevice, const TCHAR* pVsFile, const TCHAR* pPsFile, const TCHAR* pTexFile, const char*  pFuntionName);
 
 public:
 
@@ -30,31 +30,19 @@ bool   Line_Axis_s::update_ConstantBuffer()
 
 
 
-bool  Line_Axis_s::Set_VertexData()
+bool  Line_Axis_s::Set_VertexData(D3DXVECTOR3 dir_in, D3DXVECTOR4 color_in)
 {
+	m_VertexList.resize(2);
+	
+	m_VertexList[0].p = D3DXVECTOR3(0.0f, 0.0f, 0.0f);   m_VertexList[0].c = color_in; m_VertexList[0].t = D3DXVECTOR2(0.0f, 0.0f);
+	m_VertexList[1].p = dir_in;   m_VertexList[1].c = color_in; m_VertexList[1].t = D3DXVECTOR2(1.0f, 1.0f);
 
-
-	m_VertexList.resize(9);
-
-	int iner_index = 0;
-	m_VertexList[iner_index++].p = D3DXVECTOR3(0.0f, 0.0f, 0.0f);   m_VertexList[0].c = D3DXVECTOR4(0.0f, 0.0f, 0.0f, 0.5f); m_VertexList[0].t = D3DXVECTOR2(0.0f, 0.0f);
-	m_VertexList[iner_index++].p = D3DXVECTOR3(1000.0f, 0.0f, 0.0f);   m_VertexList[1].c = D3DXVECTOR4(1.0f, 0.0f, 1.0f, 0.5f); m_VertexList[1].t = D3DXVECTOR2(1.0f, 0.0f);
-	m_VertexList[iner_index++].p = D3DXVECTOR3(0.0f, 0.0f, 0.0f);   m_VertexList[0].c = D3DXVECTOR4(0.0f, 0.0f, 0.0f, 0.5f); m_VertexList[0].t = D3DXVECTOR2(0.0f, 0.0f);
-
-	m_VertexList[iner_index++].p = D3DXVECTOR3(0.0f, 0.0f, 0.0f);   m_VertexList[0].c = D3DXVECTOR4(0.0f, 0.0f, 0.0f, 0.5f); m_VertexList[0].t = D3DXVECTOR2(0.0f, 0.0f);
-	m_VertexList[iner_index++].p = D3DXVECTOR3(0.0f, 1000.0f, 0.0f);   m_VertexList[1].c = D3DXVECTOR4(1.0f, 0.0f, 1.0f, 0.5f); m_VertexList[1].t = D3DXVECTOR2(1.0f, 0.0f);
-	m_VertexList[iner_index++].p = D3DXVECTOR3(0.0f, 0.0f, 0.0f);   m_VertexList[0].c = D3DXVECTOR4(0.0f, 0.0f, 0.0f, 0.5f); m_VertexList[0].t = D3DXVECTOR2(0.0f, 0.0f);
-
-	m_VertexList[iner_index++].p = D3DXVECTOR3(0.0f, 0.0f, 0.0f);   m_VertexList[0].c = D3DXVECTOR4(0.0f, 0.0f, 0.0f, 0.5f); m_VertexList[0].t = D3DXVECTOR2(0.0f, 0.0f);
-	m_VertexList[iner_index++].p = D3DXVECTOR3(0.0f, 0.0f, 1000.0f);   m_VertexList[1].c = D3DXVECTOR4(1.0f, 0.0f, 1.0f, 0.5f); m_VertexList[1].t = D3DXVECTOR2(1.0f, 0.0f);
-	m_VertexList[iner_index++].p = D3DXVECTOR3(0.0f, 0.0f, 0.0f);   m_VertexList[0].c = D3DXVECTOR4(0.0f, 0.0f, 0.0f, 0.5f); m_VertexList[0].t = D3DXVECTOR2(0.0f, 0.0f);
 	m_icount_Vertexs = m_VertexList.size();
-
 	return true;
 }
 
 
-bool    Line_Axis_s::Create(ID3D11Device* pd3dDevice, const TCHAR* pVsFile, const TCHAR* pPsFile, const TCHAR* pTexFile)
+bool    Line_Axis_s::Create(ID3D11Device* pd3dDevice, const TCHAR* pVsFile, const TCHAR* pPsFile, const TCHAR* pTexFile, const char*  pFuntionName)
 {
 	PipeLineSetup.LoadTexture(pd3dDevice, pTexFile);
 	PipeLineSetup.SetBlendState(pd3dDevice);
@@ -62,7 +50,7 @@ bool    Line_Axis_s::Create(ID3D11Device* pd3dDevice, const TCHAR* pVsFile, cons
 	PipeLineSetup.CreateConstantBuffer(pd3dDevice, &m_Constant_Data);
 	PipeLineSetup.CreateVertexShader(pd3dDevice, pVsFile);
 	PipeLineSetup.CreateLayout(pd3dDevice);
-	PipeLineSetup.CreatePixelShader(pd3dDevice, pPsFile);
+	PipeLineSetup.CreatePixelShader(pd3dDevice, pPsFile, pFuntionName);
 
 
 	PipeLineSetup.For_Viewport_get_set();

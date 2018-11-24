@@ -54,7 +54,7 @@ bool	TSceneLobby::Init()
 {
 	
 	UI_BUTTON.Set_VertexData(); UI_BUTTON.Set_ConstantData();
-	UI_BUTTON.Create(g_pd3dDevice, L"HLSL.vsh", L"HLSL.psh", L"../../../love.jpg");
+	UI_BUTTON.Create(g_pd3dDevice, L"HLSL.vsh", L"HLSL.psh", L"../../../data/David.jpg");
 	return true;
 };
 

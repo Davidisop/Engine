@@ -159,6 +159,7 @@
     <ClCompile Include="xWindow.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Canon_Camera.h" />
     <ClInclude Include="Plane.h" />
     <ClInclude Include="Box.h" />
     <ClInclude Include="Object_BaseCamp.h" />

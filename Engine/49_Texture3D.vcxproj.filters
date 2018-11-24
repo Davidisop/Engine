@@ -22,6 +22,9 @@
     <Filter Include="Object">
       <UniqueIdentifier>{aef29bd8-9157-4c6b-b1df-757ecf31bd8e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Camera">
+      <UniqueIdentifier>{1043a743-a899-4681-a1fb-ac391334ba02}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Sample.cpp">
@@ -79,6 +82,9 @@
     </ClInclude>
     <ClInclude Include="Plane.h">
       <Filter>Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Canon_Camera.h">
+      <Filter>Camera</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

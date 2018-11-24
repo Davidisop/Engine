@@ -27,7 +27,10 @@ struct VS_OUTPUT
 VS_OUTPUT VS(VS_INPUT Input)
 {
 	VS_OUTPUT output = (VS_OUTPUT)0;
-	output.p = Input.p;
+	float4 vWorld = mul(Input.p, g_matWorld);
+	float4 vView = mul(vWorld, g_matView);
+	float4 vProj = mul(vView, g_matProj);
+	output.p = vProj;
 	output.c = Input.c;
 	output.t = Input.t;
 	return output;

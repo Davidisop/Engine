@@ -121,17 +121,17 @@ public:
 		return true;
 	}
 
-	bool Render(ID3D11DeviceContext* pContext)
+	bool Render(ID3D11DeviceContext* pContext, UINT counts_vertexs)
 	{
 		PreRender(pContext);
-		PostRender(pContext);
+		PostRender(pContext, counts_vertexs);
 		return true;
 
 	}
 
-	bool PostRender(ID3D11DeviceContext* pContext)
+	bool PostRender(ID3D11DeviceContext* pContext, UINT counts_vertexs)
 	{
-		pContext->Draw(6, 0);
+		pContext->Draw(counts_vertexs, 0);
 		return true;
 	}
 

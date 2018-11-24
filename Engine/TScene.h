@@ -38,7 +38,7 @@ class TSceneLobby : public TScene
 {
 public:
 	
-	Box					UI_BUTTON;
+	Plane				UI_BUTTON;
 
 public:
 	virtual bool	Init();
@@ -55,6 +55,7 @@ bool	TSceneLobby::Init()
 {
 	
 	UI_BUTTON.Set_VertexData(); 
+	UI_BUTTON.CreateIndexData();
 	UI_BUTTON.Create(g_pd3dDevice, L"HLSL.vsh", L"HLSL.psh", L"../../../data/David.jpg");
 
 	UI_BUTTON.Basic_Camera.Set_View_Matrix();

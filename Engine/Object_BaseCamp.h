@@ -10,6 +10,9 @@ public:
 	vector<SimpleVertex> m_VertexList;
 	UINT				 m_icount_Vertexs;
 public:
+	vector<UINT>		 m_IndexList;
+	UINT			     m_icount_Indexs;
+public:
 	T_CB_DATA		m_Constant_Data;
 public:
 	D3DXMATRIX		m_matWorld;
@@ -21,8 +24,8 @@ public:
 	virtual bool	Init() { return true;}
 	virtual bool	Frame(float fGameTimer, float fFps)	{return true;}
 	virtual bool	PreRender(ID3D11DeviceContext* pContext)	{ PipeLineSetup.PreRender(pContext);	return true;}
-	virtual bool	Render(ID3D11DeviceContext* pContext) { PipeLineSetup.Render(pContext, m_icount_Vertexs); return true;}
-	virtual bool	PostRender(ID3D11DeviceContext* pContext) { PipeLineSetup.PostRender(pContext, m_icount_Vertexs); return true;}
+	virtual bool	Render(ID3D11DeviceContext* pContext) { PipeLineSetup.Render(pContext, m_icount_Indexs); return true;}
+	virtual bool	PostRender(ID3D11DeviceContext* pContext) { PipeLineSetup.PostRender(pContext, m_icount_Indexs); return true;}
 	virtual bool	Release() { return true;}
 public:
 	Object_BaseCamp() {}

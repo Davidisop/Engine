@@ -6,8 +6,7 @@ class Plane : public Object_Handling
 {
 public:
 	bool   Set_VertexData();
-	bool   Set_ConstantData();
-	bool   update_ConstantData();
+	bool   update_ConstantBuffer();
 
 public:
 	bool Create(ID3D11Device* pd3dDevice, const TCHAR* pVsFile, const TCHAR* pPsFile, const TCHAR* pTexFile);
@@ -18,18 +17,10 @@ public:
 	virtual ~Plane() {}
 };
 
-bool   Plane::update_ConstantData()
+bool   Plane::update_ConstantBuffer()
 {
 	g_pContext->UpdateSubresource(PipeLineSetup.m_pConstantBuffer, 0, NULL, &m_Constant_Data, 0, 0);
 
-	return true;
-}
-
-bool  Plane::Set_ConstantData()
-{
-	D3DXMatrixIdentity(&m_Constant_Data.matWorld);
-	D3DXMatrixIdentity(&m_Constant_Data.matView);
-	D3DXMatrixIdentity(&m_Constant_Data.matProj);
 	return true;
 }
 

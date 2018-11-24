@@ -53,8 +53,13 @@ public:
 bool	TSceneLobby::Init()
 {
 	
-	UI_BUTTON.Set_VertexData(); UI_BUTTON.Set_ConstantData();
+	UI_BUTTON.Set_VertexData(); 
 	UI_BUTTON.Create(g_pd3dDevice, L"HLSL.vsh", L"HLSL.psh", L"../../../data/David.jpg");
+
+	UI_BUTTON.Basic_Camera.Set_View_Matrix();
+	UI_BUTTON.Basic_Camera.Set_Projection_Matrix(0.5, 1, 1, 100);
+	UI_BUTTON.camera_apply_to_constant_buffer();
+
 	return true;
 };
 
@@ -64,7 +69,7 @@ bool	TSceneLobby::Frame()
 	
 
 
-	UI_BUTTON.update_ConstantData();
+	UI_BUTTON.update_ConstantBuffer();
 	
 
 	return true;

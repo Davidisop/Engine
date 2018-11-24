@@ -27,6 +27,8 @@ using namespace std;
 #pragma comment( lib, "dxguid.lib")
 #pragma comment( lib, "d3dx11.lib")
 #pragma comment(lib, "winmm.lib")
+#pragma comment(lib,"d3dx10d.lib")
+
 
 #pragma warning (disable : 4005)
 

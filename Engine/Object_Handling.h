@@ -30,14 +30,14 @@ public:
 	void   SetVertexData();
 	void   GenCenter();
 	void   GenCenter_Rects_Adapt_new();
-	
+
 
 
 public:
 
 	Object_Handling() : m_bDead(false), m_bDetectRect(false), m_Collision_number(0)
 	{
-		
+
 	}
 	virtual ~Object_Handling() {}
 };
@@ -79,7 +79,7 @@ bool    Object_Handling::Window_SetData_factors(float left, float top, float wid
 	//1)초기데이터 세팅
 
 	RECT rt;
-	
+
 	rt.left = left;  rt.top = top;
 	rt.right = width; rt.bottom = height;
 
@@ -113,15 +113,15 @@ void   Object_Handling::SetVertexData()
 
 	pos = Gen(m_rtCollision.left + m_rtCollision.right, m_rtCollision.top); // DX 좌표화 : 근데 왜, left + right를 하지? right이 width 이니까.
 	m_VertexList[1].p.x = pos.x; m_VertexList[1].p.y = pos.y;  m_VertexList[1].p.z = 0.0f;
-	
+
 	pos = Gen(m_rtCollision.left, m_rtCollision.top + m_rtCollision.bottom); // DX 좌표화 : 근데 왜, top + bottom을 하지? bottom이 height이니까.
 	m_VertexList[2].p.x = pos.x; m_VertexList[2].p.y = pos.y;  m_VertexList[2].p.z = 0.0f;
-	
+
 	m_VertexList[3] = m_VertexList[2];                    // 왜 [2]와 같다 하지? 
 	m_VertexList[4] = m_VertexList[1];
 
 	pos = Gen(m_rtCollision.left + m_rtCollision.right, m_rtCollision.top + m_rtCollision.bottom);
-	m_VertexList[5].p.x = pos.x; m_VertexList[5].p.y= pos.y;  m_VertexList[5].p.z = 0.0f;
+	m_VertexList[5].p.x = pos.x; m_VertexList[5].p.y = pos.y;  m_VertexList[5].p.z = 0.0f;
 
 	GenCenter();
 }
@@ -129,13 +129,13 @@ void   Object_Handling::SetVertexData()
 
 void Object_Handling::GenCenter_Rects_Adapt_new()
 {
-	m_pos.x = (m_vCenter.x + 1) * g_rtClient.right/2;
-	m_pos.y = ((-1)*m_vCenter.y + 1.0f) * g_rtClient.bottom/2;
+	m_pos.x = (m_vCenter.x + 1) * g_rtClient.right / 2;
+	m_pos.y = ((-1)*m_vCenter.y + 1.0f) * g_rtClient.bottom / 2;
 
 
 	m_rtCollision.left = m_pos.x - m_for_update_Rects.x / 2;
 	m_rtCollision.right = m_pos.x + m_for_update_Rects.x / 2;
-	m_rtCollision.top = m_pos.y + m_for_update_Rects.y/2;
+	m_rtCollision.top = m_pos.y + m_for_update_Rects.y / 2;
 	m_rtCollision.bottom = m_pos.y - m_for_update_Rects.y / 2;
 
 	m_rtDetection.left = m_rtCollision.left - 165;

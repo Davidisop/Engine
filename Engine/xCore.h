@@ -1,6 +1,5 @@
 #pragma once
 #include "xWindow.h"
-#include "TDirectWrite.h"
 #include "TTimer.h"
 
 

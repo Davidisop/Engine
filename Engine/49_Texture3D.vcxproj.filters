@@ -86,6 +86,9 @@
     <ClInclude Include="Canon_Camera.h">
       <Filter>Camera</Filter>
     </ClInclude>
+    <ClInclude Include="Line.h">
+      <Filter>Object</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="HLSL.psh" />

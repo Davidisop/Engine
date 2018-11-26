@@ -2,7 +2,7 @@
 #include "xCore.h"
 
 
-struct SimpleVertex  
+struct SimpleVertex
 {
 	D3DXVECTOR3 p;
 	D3DXVECTOR4 c;
@@ -45,7 +45,6 @@ class PipeLineSetup
 {
 public:
 	ID3D11Buffer *				m_pVertextBuffer;
-	ID3D11Buffer*				m_pIndexBuffer;
 	ID3D11VertexShader*			m_pVertexShader;
 	ID3D11PixelShader*			m_pPixelShader;
 	ID3DBlob*					m_pVSBlob;
@@ -59,8 +58,6 @@ public:
 public:
 	ID3D11Buffer*				m_pConstantBuffer;
 	HRESULT CreateConstantBuffer(ID3D11Device* pd3dDevice, void* m_cbData_in);
-
-	
 
 public: // 래스터라이져
 	D3D11_VIEWPORT		m_ViewPort;
@@ -86,43 +83,42 @@ public: // 깊이 스텐실 버퍼
 	void						CreateDepthStencilState();
 
 
+public: // Line_Axis를 위한
+
 
 
 public:
 
 	HRESULT CreateVertextBuffer(ID3D11Device* pd3dDevice, void* pVertexList, int iNumCount);
-	HRESULT CreateIndexBuffer(ID3D11Device* pd3dDevice, void* pVertexList, int iNumCount);
 	HRESULT CreateVertexShader(ID3D11Device* pd3dDevice, const TCHAR* pName);
 	HRESULT CreateLayout(ID3D11Device* pd3dDevice);
-	HRESULT CreatePixelShader(ID3D11Device* pd3dDevice, const TCHAR* pName);
+	HRESULT CreatePixelShader(ID3D11Device* pd3dDevice, const TCHAR* pName, const char*  pFuntionName);
 	HRESULT LoadTexture(ID3D11Device* pd3dDevice, const TCHAR* pLoadFile);
 	HRESULT SetBlendState(ID3D11Device* pd3dDevice);
 
 
 public:
-	bool Init(ID3D11Device* pd3dDevice, const TCHAR* p_Texture_LoadFile, void* pVertexList, int iNumCount, const TCHAR* p_Vertex_shader_Name, const TCHAR* p_Pixel_shader_Name)
+	bool Init(ID3D11Device* pd3dDevice, const TCHAR* p_Texture_LoadFile, void* pVertexList, int iNumCount, const TCHAR* p_Vertex_shader_Name, const TCHAR* p_Pixel_shader_Name, const char*  pFuntionName)
 	{
-		
+
 		LoadTexture(g_pd3dDevice, p_Texture_LoadFile);
 		SetBlendState(pd3dDevice);
 		CreateVertextBuffer(g_pd3dDevice, pVertexList, iNumCount);
 		CreateVertexShader(g_pd3dDevice, p_Vertex_shader_Name);
 		CreateLayout(g_pd3dDevice);
-		CreatePixelShader(g_pd3dDevice, p_Pixel_shader_Name);
+		CreatePixelShader(g_pd3dDevice, p_Pixel_shader_Name, pFuntionName);
 		return true;
 	}
 
-	bool PreRender(ID3D11DeviceContext* pContext)
+	bool PreRender(ID3D11DeviceContext* pContext, D3D_PRIMITIVE_TOPOLOGY m_Primitive_in = D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST)
 	{
 		//
-
 
 		pContext->IASetInputLayout(m_pVertexLayout);
 		UINT pStrides = sizeof(SimpleVertex);
 		UINT pOffsets = 0; //*** 정점버퍼의 처리는 정점1개 단위로 연산된다.
 
 		pContext->IASetVertexBuffers(0, 1, &m_pVertextBuffer, &pStrides, &pOffsets);
-		pContext->IASetIndexBuffer(m_pIndexBuffer, DXGI_FORMAT_R32_UINT, 0);
 		pContext->VSSetConstantBuffers(0, 1, &m_pConstantBuffer);
 
 		pContext->VSSetShader(m_pVertexShader, NULL, NULL);
@@ -131,7 +127,7 @@ public:
 		pContext->PSSetSamplers(0, 1, &m_pSamplerState);
 
 
-		pContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+		pContext->IASetPrimitiveTopology(m_Primitive_in);
 		pContext->RSSetViewports(1, &m_ViewPort);
 		pContext->RSSetState(m_RasterizerState);
 		//래스터라이져 셋.
@@ -144,17 +140,17 @@ public:
 		return true;
 	}
 
-	bool Render(ID3D11DeviceContext* pContext, UINT counts_index)
+	bool Render(ID3D11DeviceContext* pContext, UINT counts_vertexs, D3D_PRIMITIVE_TOPOLOGY m_Primitive_in = D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST)
 	{
-		PreRender(pContext);
-		PostRender(pContext, counts_index);
+		PreRender(pContext, m_Primitive_in);
+		PostRender(pContext, counts_vertexs);
 		return true;
 
 	}
 
-	bool PostRender(ID3D11DeviceContext* pContext, UINT counts_index)
+	bool PostRender(ID3D11DeviceContext* pContext, UINT counts_vertexs)
 	{
-		pContext->DrawIndexed(counts_index, 0, 0);
+		pContext->Draw(counts_vertexs, 0);
 		return true;
 	}
 
@@ -169,9 +165,8 @@ public:
 
 
 		if (m_pVertextBuffer != NULL) m_pVertextBuffer->Release();
-		if (m_pIndexBuffer != NULL)m_pIndexBuffer->Release();
 		if (m_pConstantBuffer != NULL) m_pConstantBuffer->Release();
-	
+
 		if (m_pTextureSRV != NULL)m_pTextureSRV->Release();
 		if (m_pVertexLayout != NULL) m_pVertexLayout->Release();
 
@@ -194,7 +189,6 @@ public:
 		m_pTextureSRV = NULL;
 		m_pVertextBuffer = NULL;
 		m_pConstantBuffer = NULL;
-		m_pIndexBuffer = NULL;
 
 		m_pVertexShader = NULL;
 		m_pPixelShader = NULL;
@@ -208,9 +202,8 @@ public:
 
 		m_pVertextBuffer = nullptr;
 		m_pConstantBuffer = nullptr;
-		m_pIndexBuffer = nullptr;
-
 		m_pVertexShader = nullptr;
+
 		m_pPixelShader = nullptr;
 		m_pVSBlob = nullptr;
 		m_pPSBlob = nullptr;
@@ -222,32 +215,11 @@ public:
 		m_pAlphaBlend = nullptr;
 		m_pDepthStencilState = nullptr;
 		m_RasterizerState = nullptr;
+
+
 	}
 	~PipeLineSetup() {}
 };
-
-
-
-HRESULT PipeLineSetup::CreateIndexBuffer(ID3D11Device* pd3dDevice, void* pIndexList, int iNumCount)
-{
-	HRESULT hr;
-	D3D11_BUFFER_DESC bd;
-	D3D11_SUBRESOURCE_DATA sd; // 집어넣을 데이터
-	ZeroMemory(&bd, sizeof(bd));
-	ZeroMemory(&sd, sizeof(sd));
-	bd.Usage = D3D11_USAGE_DEFAULT;
-	bd.CPUAccessFlags = 0;
-	bd.ByteWidth = iNumCount * sizeof(UINT);
-	bd.BindFlags = D3D11_BIND_INDEX_BUFFER;
-	sd.pSysMem = &pIndexList;
-
-	if (FAILED(hr = pd3dDevice->CreateBuffer(&bd, &sd, &m_pIndexBuffer)))
-	{
-		return hr;;
-	}
-
-	return hr;
-}
 
 HRESULT PipeLineSetup::CreateConstantBuffer(ID3D11Device* pd3dDevice, void* m_cbData_in)
 {
@@ -350,7 +322,7 @@ void PipeLineSetup::Create_RasterizerState()
 	D3D11_RASTERIZER_DESC rd;
 	ZeroMemory(&rd, sizeof(rd));
 	rd.FillMode = D3D11_FILL_SOLID;
-	rd.CullMode = D3D11_CULL_NONE;
+	rd.CullMode = D3D11_CULL_BACK;
 	g_pd3dDevice->CreateRasterizerState(&rd, &m_RasterizerState);
 }
 
@@ -399,10 +371,10 @@ HRESULT PipeLineSetup::CreateVertexShader(ID3D11Device* pd3dDevice, const TCHAR*
 	}
 	return hr;
 }
-HRESULT PipeLineSetup::CreatePixelShader(ID3D11Device* pd3dDevice, const TCHAR* pszFileName)
+HRESULT PipeLineSetup::CreatePixelShader(ID3D11Device* pd3dDevice, const TCHAR* pszFileName, const char*  pFuntionName = "PS")
 {
 	HRESULT hr;
-	hr = D3DX11CompileFromFile(pszFileName, NULL, NULL, "PS", "ps_5_0", 0, 0, NULL, &m_pPSBlob, &m_pErrorBlob, NULL);
+	hr = D3DX11CompileFromFile(pszFileName, NULL, NULL, pFuntionName, "ps_5_0", 0, 0, NULL, &m_pPSBlob, &m_pErrorBlob, NULL);
 	if (FAILED(hr))
 	{
 		OutputDebugStringA((char*)m_pErrorBlob->GetBufferPointer());

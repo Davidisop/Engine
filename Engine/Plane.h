@@ -7,7 +7,6 @@ class Plane : public Object_Handling
 public:
 	bool   Set_VertexData();
 	bool   update_ConstantBuffer();
-	bool   CreateIndexData();
 
 public:
 	bool Create(ID3D11Device* pd3dDevice, const TCHAR* pVsFile, const TCHAR* pPsFile, const TCHAR* pTexFile);
@@ -20,6 +19,7 @@ public:
 
 bool   Plane::update_ConstantBuffer()
 {
+
 	g_pContext->UpdateSubresource(PipeLineSetup.m_pConstantBuffer, 0, NULL, &m_Constant_Data, 0, 0);
 
 	return true;
@@ -27,33 +27,21 @@ bool   Plane::update_ConstantBuffer()
 
 
 
-bool  Plane:: Set_VertexData()
+bool  Plane::Set_VertexData()
 {
-	m_VertexList.resize(4);
+
+
+	m_VertexList.resize(6);
 
 	int iner_index = 0;
-	m_VertexList[iner_index++] = SimpleVertex(D3DXVECTOR3(-0.5f, 0.5f, 0.0f), D3DXVECTOR4(0.0f, 0.0f, 0.0f, 1.0f), D3DXVECTOR2(0.0f, 0.0f));
-	m_VertexList[iner_index++] = SimpleVertex(D3DXVECTOR3(0.5f, 0.5f, 0.0f), D3DXVECTOR4(1.0f, 0.0f, 1.0f, 1.0f), D3DXVECTOR2(1.0f, 0.0f));
-	m_VertexList[iner_index++] = SimpleVertex(D3DXVECTOR3(-0.5f, -0.5f, 0.0f), D3DXVECTOR4(0.0f, 1.0f, 0.0f, 1.0f), D3DXVECTOR2(0.0f, 1.0f));
-	m_VertexList[iner_index] = SimpleVertex(D3DXVECTOR3(0.5f, -0.5f, 0.0f), D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f), D3DXVECTOR2(1.0f, 1.0f));
+	m_VertexList[iner_index++].p = D3DXVECTOR3(-1.0f, 1.0f, 0.0f);   m_VertexList[0].c = D3DXVECTOR4(0.0f, 0.0f, 0.0f, 0.5f); m_VertexList[0].t = D3DXVECTOR2(0.0f, 0.0f);
+	m_VertexList[iner_index++].p = D3DXVECTOR3(1.0f, 1.0f, 0.0f);   m_VertexList[1].c = D3DXVECTOR4(1.0f, 0.0f, 1.0f, 0.5f); m_VertexList[1].t = D3DXVECTOR2(1.0f, 0.0f);
+	m_VertexList[iner_index++].p = D3DXVECTOR3(-1.0f, -1.0f, 0.0f);   m_VertexList[2].c = D3DXVECTOR4(0.0f, 1.0f, 0.0f, 0.5f); m_VertexList[2].t = D3DXVECTOR2(0.0f, 1.0f);
+	m_VertexList[iner_index++].p = D3DXVECTOR3(-1.0f, -1.0f, 0.0f);   m_VertexList[3].c = D3DXVECTOR4(0.0f, 1.0f, 0.0f, 0.5f); m_VertexList[3].t = D3DXVECTOR2(0.0f, 1.0f);
+	m_VertexList[iner_index++].p = D3DXVECTOR3(1.0f, 1.0f, 0.0f);   m_VertexList[4].c = D3DXVECTOR4(1.0f, 0.0f, 1.0f, 0.5f); m_VertexList[4].t = D3DXVECTOR2(1.0f, 0.0f);
+	m_VertexList[iner_index++].p = D3DXVECTOR3(1.0f, -1.0f, 0.0f);   m_VertexList[5].c = D3DXVECTOR4(1.0f, 1.0f, 1.0f, 0.5f); m_VertexList[5].t = D3DXVECTOR2(1.0f, 1.0f);
 
-	m_icount_Vertexs = iner_index+1;
-
-	return true;
-}
-
-
-
-bool Plane::CreateIndexData()
-{
-	
-	m_IndexList.resize(6);
-
-	int iIndex = 0;
-	m_IndexList[iIndex++] = 0; 	m_IndexList[iIndex++] = 1; 	m_IndexList[iIndex++] = 2;
-	m_IndexList[iIndex++] = 2;	m_IndexList[iIndex++] = 3; 	m_IndexList[iIndex] = 1;
-
-	m_icount_Indexs = iIndex + 1;
+	m_icount_Vertexs = m_VertexList.size();
 
 	return true;
 }
@@ -64,7 +52,6 @@ bool    Plane::Create(ID3D11Device* pd3dDevice, const TCHAR* pVsFile, const TCHA
 	PipeLineSetup.LoadTexture(pd3dDevice, pTexFile);
 	PipeLineSetup.SetBlendState(pd3dDevice);
 	PipeLineSetup.CreateVertextBuffer(pd3dDevice, &m_VertexList.at(0), m_icount_Vertexs);
-	PipeLineSetup.CreateIndexBuffer(pd3dDevice, &m_IndexList.at(0), m_icount_Indexs);
 	PipeLineSetup.CreateConstantBuffer(pd3dDevice, &m_Constant_Data);
 	PipeLineSetup.CreateVertexShader(pd3dDevice, pVsFile);
 	PipeLineSetup.CreateLayout(pd3dDevice);

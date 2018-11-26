@@ -19,7 +19,7 @@ public:
 	float Far_Plane_Distance;
 
 	void Set_View_Matrix(
-		D3DXVECTOR3 camera_position_in = D3DXVECTOR3(0.0f, 10.0f, -5.0f),
+		D3DXVECTOR3 camera_position_in = D3DXVECTOR3(10.0f, 10.0f, -10.0f),
 		D3DXVECTOR3 fake_up_in = D3DXVECTOR3(0.0f, 1.0f, 0.0f),
 		D3DXVECTOR3 Target_at_in = D3DXVECTOR3(0.0f, 0.0f, 0.0f))
 	{

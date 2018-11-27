@@ -121,9 +121,6 @@ bool	TSceneLobby::Frame()
 	D3DXMatrixTranspose(&FPLANE.m_Constant_Data.matWorld, &FPLANE.m_matWorld);
 	FPLANE.update_ConstantBuffer();
 
-
-	//
-	//FPLANE.update_ConstantBuffer();
 	FBOX.update_ConstantBuffer();
 	F_Axis_x.update_ConstantBuffer();
 	F_Axis_y.update_ConstantBuffer();
